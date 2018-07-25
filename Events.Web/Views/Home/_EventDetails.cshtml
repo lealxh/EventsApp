@@ -1,0 +1,33 @@
+﻿@model Events.Web.Models.EventDetailsViewModel
+
+@if (Model.Description != null)
+{
+<div class="description">@Model.Description</div>
+}
+
+@if (Model.Comments.Any())
+{
+<ul>
+ @foreach (var item in Model.Comments)
+ {
+    <li>
+        @item.Text
+        @if (item.Author!= null) {
+         @: by ( @item.Author )
+        }
+
+    </li>
+ }
+</ul>
+}
+else
+{
+<p> No comments</p>
+}
+
+@if (ViewBag.CanEdit) {
+
+    @Html.ActionLink("Edit","Edit","Events",new {Id=Model.Id },new { @class="btn btn-default"})
+    <span></span>
+    @Html.ActionLink("Delete", "Delete", "Events", new { Id = Model.Id },new { @class = "btn btn-default" });
+}
