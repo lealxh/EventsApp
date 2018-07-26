@@ -1,0 +1,52 @@
+﻿@model Events.Web.Models.EventViewModel
+
+
+@using (Html.BeginForm())
+{
+
+    <div class="well">
+
+        @Html.HiddenFor(m => Model.Id)
+        <h3>Are you sure you want to delete this event</h3>
+        <div class="form-group">
+            @Html.LabelFor(m => m.Title)
+            @Html.DisplayFor(m => m.Title, new { @class = "form-control" })
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(m => m.StartDateTime)
+            @Html.DisplayFor(m => m.StartDateTime, new { @class = "form-control" })
+        </div>
+
+        @if (Model.Duration != null)
+        {
+            <div class="form-group">
+                @Html.LabelFor(m => m.Duration)
+                @Html.DisplayFor(m => m.Duration, new { @class = "form-control" })
+            </div>
+        }
+
+
+        @if (Model.Author != null)
+        {
+            <div class="form-group">
+                @Html.LabelFor(m => m.Author)
+                @Html.DisplayFor(m => m.Author, new { @class = "form-control" })
+            </div>
+        }
+
+
+        <div class="row">
+            <div class="col-md-offset-2 col-md-10">
+                <div class="form-group">
+                    <input type="submit" value="Confirm" class="btn btn-default" />
+                    @Html.ActionLink("Cancel", "My", null, new { @class = "btn btn-default" })
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+
+}
+

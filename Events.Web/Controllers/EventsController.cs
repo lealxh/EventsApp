@@ -18,6 +18,118 @@ namespace Events.Web.Controllers
         {
             return View();
         }
+        Event LoadEvent(int Id)
+        {
+            String UserId = User.Identity.GetUserId();
+            bool isAdmin = this.isAdmin();
+            var eventToEdit = db.Events.Where(x => x.Id == Id).
+                FirstOrDefault(x => x.AuthorId == UserId || isAdmin);
+
+             return eventToEdit;
+        }
+
+      
+
+        [Authorize]
+        [HttpPost]
+        public ActionResult Edit(int Id, EventInputModel m)
+        {
+            Event e = LoadEvent(Id);
+            if (e == null)
+            {
+                this.AddNotification("Cannot edit event # " + Id, NotificationType.ERROR);
+                return RedirectToAction("My");
+
+            }
+            if (m != null && ModelState.IsValid)
+            {
+                e.Description = m.Description;
+                e.Duration = m.Duration;
+                e.IsPublic = m.IsPublic;
+                e.Location = m.Location;
+                e.StartDateTime = m.StartDateTime;
+                e.Title = m.Title;
+                db.SaveChanges();
+
+                
+                this.AddNotification("Event edited successfully", NotificationType.INFO);
+                return RedirectToAction("My");
+
+            }
+          
+            return View(m);
+        }
+
+        [Authorize]
+        public ActionResult Edit(int? Id)
+        {
+
+            if (Id == null)
+            {
+                this.AddNotification("Cannot edit event # " + Id, NotificationType.ERROR);
+                return RedirectToAction("My");
+            }
+
+            Event e = LoadEvent(Id.Value);
+            if (e == null)
+            {
+                this.AddNotification("Cannot edit event # "+Id, NotificationType.ERROR);
+                return RedirectToAction("My");
+                
+            }
+         
+            var model = EventInputModel.CreateFromEvent(e);
+            return View(model);
+        }
+
+
+        [Authorize]
+        public ActionResult Delete(int? Id)
+        {
+            if (Id == null)
+            {
+                this.AddNotification("Cannot delete event # " + Id, NotificationType.ERROR);
+                return RedirectToAction("My");
+            }
+            Event e = LoadEvent(Id.Value);
+            if (e == null)
+            {
+               this.AddNotification("Cannot delete event # " + Id, NotificationType.ERROR);
+               return RedirectToAction("My");
+
+            }
+
+
+
+            var model = EventViewModel.CreateFromEvent(e);
+            return View(model);
+        }
+
+        [Authorize]
+        [HttpPost]
+        public ActionResult Delete(int Id,EventInputModel v)
+        {
+            Event e = LoadEvent(Id);
+            if (e == null)
+            {
+                this.AddNotification("Cannot edit event # " + Id, NotificationType.ERROR);
+                return RedirectToAction("My");
+
+            }
+            else
+             {
+
+                db.Events.Remove(e);
+                db.SaveChanges();
+
+
+                this.AddNotification("Event deleted successfully", NotificationType.INFO);
+                return RedirectToAction("My");
+
+            }
+
+           
+        }
 
         [Authorize]
         [HttpPost]

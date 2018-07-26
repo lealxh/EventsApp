@@ -1,9 +1,9 @@
 ﻿@model Events.Web.Models.EventViewModel
 
-<div class="col-md-4 col-sm-6 col-xs-12">
-    <div class="event-box">
+<div class="col-md-4 col-sm-6 col-xs-12"> 
+    <div class="well">
         <h2>@Model.Title</h2>
-        <div class="date">@Model.StartDateTime</div>
+        <div class="date">@Model.StartDateTime.ToString("dd-MM-yyyy hh:mm")</div>
 
         @if (Model.Duration != null)
         {

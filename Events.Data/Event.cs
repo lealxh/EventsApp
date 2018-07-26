@@ -20,6 +20,7 @@ namespace Events.Data
         [Required]
         [MaxLength(200)]
         public string Title { get; set; }
+
         [Required]
         public DateTime StartDateTime { get; set; }
 
