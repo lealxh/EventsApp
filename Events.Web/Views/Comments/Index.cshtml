@@ -1,0 +1,14 @@
+﻿@model List<Events.Web.Models.CommentViewModel>
+<ul>
+@foreach (var item in Model)
+{
+     <li>
+        @item.Text
+        @if (item.Author != null)
+        {
+            @: by ( @item.Author )
+        }
+
+    </li>
+}
+</ul>

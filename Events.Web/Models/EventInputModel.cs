@@ -18,7 +18,7 @@ namespace Events.Web.Models
         [DataType(DataType.DateTime)]
         [Display(Name = "Date and Time *")]
         //DD-MM-YYYY HH:mm
-        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd.MM.yyyy HH:mi}")]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd.MMM.yyyy HH:mi}")]
         public DateTime StartDateTime { get; set; }
 
         public TimeSpan? Duration { get; set; }

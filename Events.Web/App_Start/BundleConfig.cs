@@ -29,7 +29,7 @@ namespace Events.Web
                 "~/Scripts/jquery.unobtrusive-ajax.min.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/bootstrap-datetimepicker").Include(
-                      "~/Scripts/moment.js",
+                      "~/Scripts/moment-with-locales.js",
                       "~/Scripts/bootstrap-datetimepicker.js"));
 
             bundles.Add(new StyleBundle("~/Content/bootstrap-datetimepicker").Include(

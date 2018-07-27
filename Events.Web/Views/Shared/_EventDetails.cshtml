@@ -1,33 +1,40 @@
 ﻿@model Events.Web.Models.EventDetailsViewModel
+@if (Model.Duration != null)
+{
+    <div class="form-group-sm">
+        @Html.LabelFor(m => m.Duration)
+        @Html.DisplayFor(m => m.Duration)
+    </div>
+}
 
+@if (Model.Author != null)
+{
+    <div class="form-group-sm">
+        @Html.LabelFor(m => m.Author)
+        @Html.DisplayFor(m => m.Author)
+    </div>
+
+}
+
+@if (Model.Location != null)
+{
+    <div class="form-group-sm">
+        @Html.LabelFor(m => m.Location)
+        @Html.DisplayFor(m => m.Location)
+    </div>
+}
 @if (Model.Description != null)
 {
-<div class="description">@Model.Description</div>
-}
-
-@if (Model.Comments.Any())
-{
-<ul>
- @foreach (var item in Model.Comments)
- {
-    <li>
-        @item.Text
-        @if (item.Author!= null) {
-         @: by ( @item.Author )
-        }
-
-    </li>
+ 
+    <div class="form-group-sm">
+        @Html.LabelFor(m => m.Description)
+        @Html.DisplayFor(m => m.Description)
+  </div>
  }
-</ul>
-}
-else
-{
-<p> No comments</p>
-}
 
-@if (ViewBag.CanEdit) {
-
-    @Html.ActionLink("Edit","Edit","Events",new {Id=Model.Id },new { @class="btn btn-default"})
-    <span></span>
-    @Html.ActionLink("Delete", "Delete", "Events", new { Id = Model.Id },new { @class = "btn btn-default" });
-}
+        @if (ViewBag.CanEdit)
+        {
+            @Html.ActionLink("Edit", "Edit", "Events", new { Id = Model.Id }, new { @class = "btn btn-default" })
+            <span></span>
+            @Html.ActionLink("Delete", "Delete", "Events", new { Id = Model.Id }, new { @class = "btn btn-default" });
+        }

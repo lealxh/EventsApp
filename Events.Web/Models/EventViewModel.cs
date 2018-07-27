@@ -12,7 +12,7 @@ namespace Events.Web.Models
 
         public int Id { get; set; }
         public string Title { get; set; }
-        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd.MM.yyyy HH:mm}")]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd.MMM.yyyy HH:mm}")]
         public DateTime StartDateTime { get; set; }
         public TimeSpan? Duration { get; set; }
         public String Author { get; set; }

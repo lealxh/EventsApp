@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.ComponentModel.DataAnnotations;
+
 
 namespace Events.Data
 {
@@ -14,11 +16,12 @@ namespace Events.Data
         }
         public int Id { get; set; }
 
+        [Display(Name ="Add a comment")]
         public String Text { get; set; }
 
         public DateTime Date { get; set; }
 
-        public int AuthorId { get; set; }
+        public String AuthorId { get; set; }
 
         public virtual ApplicationUser Author { get; set; }
 
