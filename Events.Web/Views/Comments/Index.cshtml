@@ -2,6 +2,7 @@
 @using Microsoft.AspNet.Identity;
 @{
     String CurrentUserId = this.User.Identity.GetUserId();
+    bool isLoguedIn = this.User.Identity.IsAuthenticated;
     bool isAdmin = (CurrentUserId != null && User.IsInRole("Administrator"));
 }
 
@@ -25,9 +26,9 @@ else
             }
             <p> @item.Text</p>
 
-            @if (CurrentUserId == item.AuthorId || isAdmin)
+            @if (this.User.Identity.IsAuthenticated && (CurrentUserId == item.AuthorId || isAdmin))
             {
-              @: <input type="button" id="deleteComment-@item.Id" value="Delete" class="btn btn-sm" onclick="deleteComment(@item.Id)" />
+              @: <input type="button" id="deletebutton" value="Delete" class="btn btn-sm" data-content="@item.Id"  />
             }
         </li>
     }
@@ -36,17 +37,22 @@ else
 
 
 <script>
-    function deleteComment(Id) {
-        if (confirm("Do you really want to delete this comment?"))
-        {
+  
+    $().ready(function ()
+    {
+        $("#deletebutton").click(function () {
+            var Id = parseInt($(this).attr("data-content"));
+            if (confirm("Do you really want to delete this comment?")) {
 
-            var req = $.get("/Comments/DeleteComment/" + Id);
-            req.done(function (data, status) {
-                if (status == 'success')
-                $("#comment-" + Id).remove();
+                var req = $.get("/Comments/DeleteComment/" + Id);
+                req.done(function (data, status) {
+                    if (status == 'success')
+                        $("#comment-" + Id).remove();
 
-            });
-        }
-    }
+                });
+            }
+        });
+        
+    });
 
 </script>

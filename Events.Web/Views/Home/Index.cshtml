@@ -2,14 +2,25 @@
 
 @{
     ViewBag.Title = "Public Events";
+
 }
 
+@{
+    ViewBag.PostBackAction = "/" + ViewBag.Controller + "/UpcomingEvents/";
+    ViewBag.UpdateSelector = "#events-upcoming";
+    ViewBag.Heading = "Upcoming Events";
+}
 <div id="events-upcoming">
-    @Html.Partial("_EventsUpcoming", Model.Upcoming)
+    @Html.Partial("_Events", Model.Upcoming)
 </div>
 
+@{
+    ViewBag.PostBackAction = "/" + ViewBag.Controller + "/PassedEvents/";
+    ViewBag.UpdateSelector = "#events-passed";
+    ViewBag.Heading = "Passed Events";
+}
 <div id="events-passed">
-    @Html.Partial("_EventsPassed", Model.Passed)
+    @Html.Partial("_Events", Model.Passed)
 </div>
 
 @section scripts{

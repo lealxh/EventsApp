@@ -30,6 +30,7 @@ namespace Events.Web.Controllers
             EventsUpcoming.Pages = Convert.ToInt32(Math.Ceiling((double)db.Events.Count(x => x.IsPublic && x.StartDateTime > DateTime.Now) / PageSize));
             EventsUpcoming.CurrentPage = page.Value;
             ViewBag.Controller = "Home";
+            
             return View(new UpcomingPassedEventsPaged() { Passed = EventsPassed, Upcoming = EventsUpcoming });
 
 
@@ -46,9 +47,11 @@ namespace Events.Web.Controllers
             EventsPassed.Pages = Convert.ToInt32(Math.Ceiling((double)db.Events.Count(x => x.IsPublic && x.StartDateTime <= DateTime.Now) / PageSize));
             EventsPassed.CurrentPage = page.Value;
 
-            ViewBag.Controller = "Home";
+            ViewBag.PostBackAction = "/Home/PassedEvents/";
+            ViewBag.UpdateSelector = "#events-passed";
+            ViewBag.Heading = "Passed Events";
 
-            return PartialView("_EventsPassed", EventsPassed);
+            return PartialView("_Events", EventsPassed);
           
         }
 
@@ -62,9 +65,13 @@ namespace Events.Web.Controllers
             EventsUpcoming.Data = db.Events.Where(x => x.IsPublic && x.StartDateTime > DateTime.Now).OrderByDescending(x => x.StartDateTime).Skip(PageSize * (page.Value - 1)).Take(PageSize).Select(EventViewModel.ViewModel).ToList();
             EventsUpcoming.Pages = Convert.ToInt32(Math.Ceiling((double)db.Events.Count(x => x.IsPublic && x.StartDateTime > DateTime.Now) / PageSize));
             EventsUpcoming.CurrentPage = page.Value;
-            ViewBag.Controller= "Home";
 
-            return PartialView("_EventsUpcoming", EventsUpcoming);
+            ViewBag.PostBackAction = "/Home/UpcomingEvents/";
+            ViewBag.UpdateSelector = "#events-upcoming";
+            ViewBag.Heading = "Upcoming Events";
+
+
+            return PartialView("_Events", EventsUpcoming);
 
         }
 

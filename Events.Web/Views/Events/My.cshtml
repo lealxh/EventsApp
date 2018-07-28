@@ -1,14 +1,26 @@
 ﻿@model Events.Web.Models.UpcomingPassedEventsPaged
+
 @{
-    ViewBag.Title = "My Events";
+    ViewBag.Title = "Public Events";
+
 }
 
+@{
+    ViewBag.PostBackAction = "/" + ViewBag.Controller + "/UpcomingEvents/";
+    ViewBag.UpdateSelector = "#events-upcoming";
+    ViewBag.Heading = "My Upcoming Events";
+}
 <div id="events-upcoming">
-    @Html.Partial("_EventsUpcoming", Model.Upcoming)
+    @Html.Partial("_Events", Model.Upcoming)
 </div>
 
+@{
+    ViewBag.PostBackAction = "/" + ViewBag.Controller + "/PassedEvents/";
+    ViewBag.UpdateSelector = "#events-passed";
+    ViewBag.Heading = "My Passed Events";
+}
 <div id="events-passed">
-    @Html.Partial("_EventsPassed", Model.Passed)
+    @Html.Partial("_Events", Model.Passed)
 </div>
 
 @section scripts{
