@@ -2,32 +2,45 @@
 
 <div class="col-md-4 col-sm-6 col-xs-12"> 
     <div class="well">
-        <h2>@Model.Title</h2>
+        <h4>@Model.Title</h4>
         <div class="form-group-sm">
             @Html.LabelFor(m => m.StartDateTime)
             @Html.DisplayFor(m => m.StartDateTime)
         </div>
         <div id="event-details-@Model.Id">
-            @Ajax.ActionLink("View Details ", "EventDetailsById", "Home",
-          new { Id = Model.Id },
-          new AjaxOptions()
-          {
-              InsertionMode = InsertionMode.Replace,
-              UpdateTargetId = "event-details-" + Model.Id
-          },
-          new {@class="btn btn-default"})
         </div>
-
-       @Ajax.ActionLink("Comment", "Create", "Comments",
+        <div id="comment-form-@Model.Id">
+        </div>
+        <div id="comment-list-@Model.Id">
+        </div>
+        @Ajax.ActionLink("Details", "EventDetailsById", "Home",
        new { Id = Model.Id },
        new AjaxOptions()
        {
            InsertionMode = InsertionMode.Replace,
-           UpdateTargetId = "comment-form-"+Model.Id
+           UpdateTargetId = "event-details-" + Model.Id
        },
-       new {@class="btn btn-default"})
-        <div id="comment-form-@Model.Id">
-        </div>
+       new {@class="btn btn-primary"})
+
+        @Ajax.ActionLink("Comment", "Create", "Comments",
+        new { Id = Model.Id },
+        new AjaxOptions()
+        {
+            InsertionMode = InsertionMode.Replace,
+            UpdateTargetId = "comment-form-"+Model.Id
+        },
+        new {@class="btn btn-primary"})
+
+        @Ajax.ActionLink("Show Comments", "Index", "Comments",
+        new { Id = Model.Id },
+        new AjaxOptions()
+        {
+            InsertionMode = InsertionMode.Replace,
+            UpdateTargetId = "comment-list-"+Model.Id
+        },
+        new {@class="btn btn-primary"})
+
+
     </div>
 </div>
     

@@ -8,7 +8,7 @@
             var formData = $("#commentForm").serialize();
             var req = $.post("/Comments/SaveComment", formData);
             req.done(function (data, status) {
-                $("#comment-form-@Model.Value").empty().append(data);
+                $("#comment-list-@Model.Value").empty().append(data);
                 
             });
         });
@@ -28,7 +28,7 @@
         <textarea class="form-control" id="CommentText" name="CommentText" rows="3"></textarea>
     </div>
     <div class="form-group">
-        <input type="button" class="btn btn-default" id="comment" value="Comment" />
-        <input type="button" class="btn btn-default" id="cancel" name="submit" value="Cancel" />
+        <input type="button" class="btn btn-primary" id="comment" value="Comment" />
+        <input type="button" class="btn btn-primary" id="cancel" name="submit" value="Cancel" />
     </div>
 </form>

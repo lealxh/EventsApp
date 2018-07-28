@@ -12,7 +12,7 @@ namespace Events.Web.Controllers
     public class BaseController:Controller
     {
         public ApplicationDbContext db = new ApplicationDbContext();
-
+        
         public bool isAdmin()
         {
             String CurrentUserId = this.User.Identity.GetUserId();

@@ -204,7 +204,8 @@
     <Compile Include="Models\EventDetailsViewModel.cs" />
     <Compile Include="Models\CommentViewModel.cs" />
     <Compile Include="Models\EventInputModel.cs" />
-    <Compile Include="Models\UpcomingPassedEvents.cs" />
+    <Compile Include="Models\PagedData.cs" />
+    <Compile Include="Models\UpcomingPassedEventPaged.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -285,12 +286,13 @@
     <Content Include="Views\Events\Create.cshtml" />
     <Content Include="Views\Events\My.cshtml" />
     <Content Include="Views\Shared\_Notifications.cshtml" />
-    <Content Include="Views\Shared\_Events.cshtml" />
     <Content Include="Views\Events\_EventEditorForm.cshtml" />
     <Content Include="Views\Events\Edit.cshtml" />
     <Content Include="Views\Events\Delete.cshtml" />
     <Content Include="Views\Comments\Create.cshtml" />
     <Content Include="Views\Comments\Index.cshtml" />
+    <Content Include="Views\Shared\_EventsUpcoming.cshtml" />
+    <Content Include="Views\Shared\_EventsPassed.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />

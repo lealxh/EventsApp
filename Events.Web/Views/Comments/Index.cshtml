@@ -1,14 +1,52 @@
 ﻿@model List<Events.Web.Models.CommentViewModel>
-<ul>
-@foreach (var item in Model)
-{
-     <li>
-        @item.Text
-        @if (item.Author != null)
-        {
-            @: by ( @item.Author )
-        }
-
-    </li>
+@using Microsoft.AspNet.Identity;
+@{
+    String CurrentUserId = this.User.Identity.GetUserId();
+    bool isAdmin = (CurrentUserId != null && User.IsInRole("Administrator"));
 }
+
+
+@if (!Model.Any())
+{
+    <div class="text-info">No comments</div>
+}
+else
+{
+<ul class="list-group">
+    @foreach (var item in Model)
+    {
+        <li class="list-group-item" id="comment-@item.Id">
+            @if (item.Author != null)
+            {
+                @:<small>@item.Author :</small>
+            }
+            else
+            { @:<small>Annonymous: </small>
+            }
+            <p> @item.Text</p>
+
+            @if (CurrentUserId == item.AuthorId || isAdmin)
+            {
+              @: <input type="button" id="deleteComment-@item.Id" value="Delete" class="btn btn-sm" onclick="deleteComment(@item.Id)" />
+            }
+        </li>
+    }
 </ul>
+}
+
+
+<script>
+    function deleteComment(Id) {
+        if (confirm("Do you really want to delete this comment?"))
+        {
+
+            var req = $.get("/Comments/DeleteComment/" + Id);
+            req.done(function (data, status) {
+                if (status == 'success')
+                $("#comment-" + Id).remove();
+
+            });
+        }
+    }
+
+</script>

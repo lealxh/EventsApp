@@ -1,11 +1,16 @@
-﻿@model Events.Web.Models.UpcomingPassedEvents
+﻿@model Events.Web.Models.UpcomingPassedEventsPaged
 @{
     ViewBag.Title = "My Events";
 }
 
-@Html.Partial("_Events");
+<div id="events-upcoming">
+    @Html.Partial("_EventsUpcoming", Model.Upcoming)
+</div>
 
+<div id="events-passed">
+    @Html.Partial("_EventsPassed", Model.Passed)
+</div>
 
 @section scripts{
-    @Scripts.Render("~/bundles/ajax");
+    @Scripts.Render("~/bundles/ajax")
 }

@@ -18,7 +18,10 @@ namespace Events.Web.Controllers
         {
             List<CommentViewModel> list = new List<CommentViewModel>();
             if (Id != null)
-                list = db.Comments.Where(x => x.EventId == Id.Value).Select(CommentViewModel.ViewModel).ToList();
+                list = db.Comments.
+                    Where(x => x.EventId == Id.Value).
+                    OrderBy(y=>y.Date).
+                    Select(CommentViewModel.ViewModel).ToList();
             return PartialView(list);
         }
 
@@ -47,8 +50,27 @@ namespace Events.Web.Controllers
                 db.SaveChanges();
             }
             List<CommentViewModel> list = new List<CommentViewModel>();
-            list = db.Comments.Where(x => x.EventId == Id.Value).Select(CommentViewModel.ViewModel).ToList();
+            list = db.Comments.Where(x => x.EventId == Id.Value).OrderBy(y => y.Date).Select(CommentViewModel.ViewModel).ToList();
+            return PartialView("Index", list);
+        }
 
+        
+        public PartialViewResult DeleteComment(int? Id)
+        {
+            if (Id != null && this.User.Identity.IsAuthenticated)
+            {
+                String UserId = this.User.Identity.GetUserId();
+                bool isAdmin=this.isAdmin();
+                var comment = db.Comments.Where(x => x.Id == Id.Value).FirstOrDefault(y => y.AuthorId == UserId ||isAdmin);
+                if (comment != null)
+                {
+                    db.Comments.Remove(comment);
+                    db.SaveChanges();
+                }
+            
+            }
+            List<CommentViewModel> list = new List<CommentViewModel>();
+            list = db.Comments.Where(x => x.EventId == Id.Value).OrderBy(y => y.Date).Select(CommentViewModel.ViewModel).ToList();
             return PartialView("Index", list);
         }
 

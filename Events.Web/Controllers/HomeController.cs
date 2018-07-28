@@ -9,21 +9,62 @@ using System.Web.Mvc;
 
 namespace Events.Web.Controllers
 {
+    [OutputCacheAttribute(VaryByParam = "*", Duration = 0, NoStore = true)]
     public class HomeController : BaseController
     {
+        public const int DefaultPageSize = 3;
         public ActionResult Index()
         {
-            var events = db.Events.
-                Where(x => x.IsPublic).
-                OrderBy(x => x.StartDateTime).
-                Select(EventViewModel.ViewModel);
 
-              return View(
-                new UpcomingPassedEvents()
-                { Passed = events.Where(x => x.StartDateTime <= DateTime.Now),
-                    Upcoming = events.Where(x => x.StartDateTime > DateTime.Now)
-        });
+            int PageSize = HomeController.DefaultPageSize;
+            int? page = 1;
+            var EventsPassed = new PagedData<EventViewModel>();
 
+            EventsPassed.Data = db.Events.Where(x => x.IsPublic && x.StartDateTime <= DateTime.Now).OrderByDescending(x => x.StartDateTime).Skip(PageSize * (page.Value - 1)).Take(PageSize).Select(EventViewModel.ViewModel).ToList();
+            EventsPassed.Pages = Convert.ToInt32(Math.Ceiling((double)db.Events.Count(x => x.IsPublic && x.StartDateTime <= DateTime.Now) / PageSize));
+            EventsPassed.CurrentPage = page.Value;
+
+            var EventsUpcoming = new PagedData<EventViewModel>();
+
+            EventsUpcoming.Data = db.Events.Where(x => x.IsPublic && x.StartDateTime > DateTime.Now).OrderByDescending(x => x.StartDateTime).Skip(PageSize * (page.Value - 1)).Take(PageSize).Select(EventViewModel.ViewModel).ToList();
+            EventsUpcoming.Pages = Convert.ToInt32(Math.Ceiling((double)db.Events.Count(x => x.IsPublic && x.StartDateTime > DateTime.Now) / PageSize));
+            EventsUpcoming.CurrentPage = page.Value;
+            ViewBag.Controller = "Home";
+            return View(new UpcomingPassedEventsPaged() { Passed = EventsPassed, Upcoming = EventsUpcoming });
+
+
+        }
+
+        public ActionResult PassedEvents(int? page)
+        {
+            page = page ?? 1;
+
+            int PageSize = HomeController.DefaultPageSize;
+            var EventsPassed = new PagedData<EventViewModel>();
+            
+            EventsPassed.Data = db.Events.Where(x => x.IsPublic && x.StartDateTime <= DateTime.Now).OrderByDescending(x => x.StartDateTime).Skip(PageSize * (page.Value - 1)).Take(PageSize).Select(EventViewModel.ViewModel).ToList();
+            EventsPassed.Pages = Convert.ToInt32(Math.Ceiling((double)db.Events.Count(x => x.IsPublic && x.StartDateTime <= DateTime.Now) / PageSize));
+            EventsPassed.CurrentPage = page.Value;
+
+            ViewBag.Controller = "Home";
+
+            return PartialView("_EventsPassed", EventsPassed);
+          
+        }
+
+        public ActionResult UpcomingEvents(int? page)
+        {
+            page = page ?? 1;
+
+            int PageSize = HomeController.DefaultPageSize;
+            var EventsUpcoming = new PagedData<EventViewModel>();
+
+            EventsUpcoming.Data = db.Events.Where(x => x.IsPublic && x.StartDateTime > DateTime.Now).OrderByDescending(x => x.StartDateTime).Skip(PageSize * (page.Value - 1)).Take(PageSize).Select(EventViewModel.ViewModel).ToList();
+            EventsUpcoming.Pages = Convert.ToInt32(Math.Ceiling((double)db.Events.Count(x => x.IsPublic && x.StartDateTime > DateTime.Now) / PageSize));
+            EventsUpcoming.CurrentPage = page.Value;
+            ViewBag.Controller= "Home";
+
+            return PartialView("_EventsUpcoming", EventsUpcoming);
 
         }
 
